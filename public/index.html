@@ -10,7 +10,7 @@
 &lt;script&gt;
   const pay = new GDMxGateway({ merchantAddress: "0xYourWeb3Address" });
   pay.checkout({ amountUSD: 5, onSuccess: tx => console.log(tx) });
-&lt;/script&gt;</pre><div class="mt-6 flex justify-center gap-3"><button onclick="demo()" class="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 text-slate-950 font-bold">Try Demo</button><a href="https://github.com/OpenCodeWEB/GDMx" class="px-6 py-3 rounded-xl border border-slate-700 text-slate-300">GitHub</a></div></section>
+&lt;/script&gt;</pre><div class="mt-6 flex justify-center gap-3"><button onclick="demoPay()" class="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 text-slate-950 font-bold">Try Live Test (0.01 USD)</button><a href="https://github.com/OpenCodeWEB/GDMx" class="px-6 py-3 rounded-xl border border-slate-700 text-slate-300">GitHub</a></div></section>
 <section class="max-w-7xl mx-auto px-4 pb-8 grid md:grid-cols-3 gap-6">
 <div class="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-6"><i class="fa-solid fa-wallet text-emerald-400 text-2xl"></i><h3 class="font-bold mt-3">1. Universal Auth</h3><p class="text-xs text-slate-400 mt-2">500+ wallets (WalletConnect) + Social (Google/Email/GitHub) + Cross-Chain (EVM/Solana/TON) — auto switch</p></div>
 <div class="rounded-2xl border border-amber-500/20 bg-amber-500/5 p-6"><i class="fa-regular fa-credit-card text-amber-400 text-2xl"></i><h3 class="font-bold mt-3">2. Fiat Aggregator</h3><p class="text-xs text-slate-400 mt-2">MoonPay, Transak, Ramp, Banxa, Wert — parallel race, fastest wins, direct to your wallet</p></div>
@@ -20,5 +20,10 @@
 <div class="rounded-2xl border border-slate-700 bg-slate-900/50 p-6"><i class="fa-brands fa-osi text-slate-400 text-2xl"></i><h3 class="font-bold mt-3">6. 100% Free</h3><p class="text-xs text-slate-400 mt-2">MIT, serverless, zero hosting cost — fork, self-host, no vendor lock</p></div>
 </section>
 <footer class="border-t border-slate-800 py-10"><div class="max-w-7xl mx-auto px-4 flex items-center justify-between"><span class="text-sm text-slate-400">GDMx — MIT · By @ABsUP & @OpenCodeWEB</span><span class="mono text-xs text-slate-500">gdmx.pages.dev</span></div></footer>
-<script>function demo(){ alert("Demo: connect wallet at dsgx.pages.dev/ABsUP"); }</script>
+<script src="https://gdmx.pages.dev/sdk/v1/gdmx.js"></script>
+<script>async function demoPay(){
+  const pay = new GDMxGateway({ merchantAddress: "0x9016a472c308A4e87bed705D066636Adf625D1B0" });
+  try { const tx = await pay.checkout({ amountUSD: 0.01, method: "auto" }); alert("✓ Test payment sent: " + tx + "\nCheck dashboard for confirmation. Funds go directly to merchant wallet (non-custodial, 0% fee)."); }
+  catch(e){ alert("Connect wallet or try card: " + e.message); }
+}</script>
 </body></html>
