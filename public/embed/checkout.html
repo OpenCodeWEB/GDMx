@@ -55,7 +55,17 @@ document.getElementById("pay-card").onclick = async () => {
   const prov = selectedProvider ? `&provider=${encodeURIComponent(selectedProvider)}` : "";
   const chain = selectedChain ? `&chainId=${encodeURIComponent(selectedChain)}` : "";
   const res = await fetch(`https://gdbx.xup.workers.dev/gdmx/create-checkout?to=${encodeURIComponent(to)}&amount=${encodeURIComponent(amount)}${prov}${chain}`).catch(()=>null);
-  if (res && res.ok) { const j = await res.json(); if (j.url) { location.href = j.url; return; } }
+  if (res && res.ok) {
+    const j = await res.json();
+    if (j.url && !j.mock) { location.href = j.url; return; }
+    if (j.url && j.mock) {
+      const tx = "0xMOCK_"+Date.now().toString(16);
+      parent.postMessage({ type: "GDMX_SUCCESS", txHash: tx, chainId: selectedChain, mock: true }, "https://gdmx.pages.dev");
+      if (window.parent !== window) parent.postMessage({ type: "GDMX_SUCCESS", txHash: tx, chainId: selectedChain, mock: true }, "*");
+      document.body.innerHTML = '<div class="text-emerald-300 p-6">✓ Demo payment via '+(j.provider||selectedProvider||"best available")+' on chain '+selectedChain+' — no real charge (demo mode, provider not configured with live key)<br><span class="text-xs text-slate-400">tx '+tx+'</span></div>';
+      return;
+    }
+  }
   parent.postMessage({ type: "GDMX_SUCCESS", txHash: "0xMOCK_"+Date.now(), chainId: selectedChain }, "https://gdmx.pages.dev");
   if (window.parent !== window) parent.postMessage({ type: "GDMX_SUCCESS", txHash: "0xMOCK_"+Date.now(), chainId: selectedChain }, "*");
   document.body.innerHTML = '<div class="text-emerald-300 p-6">✓ Card payment via '+(selectedProvider||"best available")+' on chain '+selectedChain+' — USDC will arrive</div>';
