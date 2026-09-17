@@ -1,7 +1,5 @@
 # GDMx — Cloudflare Pages redirects (output dir: public)
-# Keep pretty URLs working 24/7 on production + preview domains
+# Pretty URLs 24/7 on Dev production + preview domains
 /Dashboard  /Dashboard.html  200
 /dashboard  /Dashboard.html  200
 /embed/checkout  /embed/checkout.html  200
-/sdk/*  /sdk/:splat  200
-/js/*  /js/:splat  200

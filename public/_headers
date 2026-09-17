@@ -1,16 +1,15 @@
 # GDMx — Edge cache + security (24/7 fast global load)
-/sdk/*:
+/sdk/*
   Cache-Control: public, max-age=3600
   Access-Control-Allow-Origin: *
-/js/*:
+/js/*
   Cache-Control: public, max-age=3600
   Access-Control-Allow-Origin: *
-/gdmx-pay.js:
+/gdmx-pay.js
   Cache-Control: public, max-age=3600
   Access-Control-Allow-Origin: *
-/embed/*:
-  X-Frame-Options: ALLOWALL
+/embed/*
   Content-Security-Policy: frame-ancestors *
-/:
+/
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
