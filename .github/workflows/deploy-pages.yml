@@ -1,0 +1,22 @@
+name: Deploy to Cloudflare Pages (Dev production)
+# Dev is the primary branch. Direct-upload `public/` so production stays live
+# 24/7 even if the Git integration is disconnected.
+# Required repo secret: CLOUDFLARE_API_TOKEN (Pages:Edit + account read).
+# Optional: CLOUDFLARE_ACCOUNT_ID (defaults to ABsUP.ORG account below).
+on:
+  push:
+    branches: [Dev]
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy public/ to Pages (project gdmx, branch Dev)
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || '9c6e3d4513006c50aedc3ea090dad901' }}
+          command: pages deploy public --project-name=gdmx --branch=Dev
