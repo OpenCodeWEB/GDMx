@@ -130,5 +130,5 @@ class GDMxGateway {
   }
 }
 window.GDMxGateway = GDMxGateway;
-export { GDMxGateway };
-export default GDMxGateway;
+// UMD + ESM compatible (classic <script> must NOT use `export` — it throws SyntaxError)
+if (typeof module !== "undefined" && module.exports) { module.exports = GDMxGateway; }
