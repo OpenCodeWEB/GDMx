@@ -20,7 +20,7 @@
 <div class="rounded-2xl border border-slate-700 bg-slate-900/50 p-6"><i class="fa-brands fa-osi text-slate-400 text-2xl"></i><h3 class="font-bold mt-3">6. 100% Free</h3><p class="text-xs text-slate-400 mt-2">MIT, serverless, zero hosting cost — fork, self-host, no vendor lock</p></div>
 </section>
 <footer class="border-t border-slate-800 py-10"><div class="max-w-7xl mx-auto px-4 flex items-center justify-between"><span class="text-sm text-slate-400">GDMx — MIT · By @ABsUP & @OpenCodeWEB</span><span class="mono text-xs text-slate-500">gdmx.pages.dev</span></div></footer>
-<script src="https://gdmx.pages.dev/sdk/v1/gdmx.js"></script>
+<script src="/sdk/v1/gdmx.js" onerror="var s=document.createElement('script');s.src='https://gdmx.pages.dev/sdk/v1/gdmx.js';document.head.appendChild(s)"></script>
 <script>async function demoPay(){
   const pay = new GDMxGateway({ merchantAddress: "0x9016a472c308A4e87bed705D066636Adf625D1B0" });
   try { const tx = await pay.checkout({ amountUSD: 0.01, method: "auto" }); alert("✓ Test payment sent: " + tx + "\nCheck dashboard for confirmation. Funds go directly to merchant wallet (non-custodial, 0% fee)."); }

@@ -1,0 +1,26 @@
+name: Pages health (24/7)
+on:
+  schedule:
+    - cron: '*/30 * * * *'  # every 30 min
+  workflow_dispatch:
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check production
+        run: |
+          for i in 1 2 3; do
+            CODE=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 https://gdmx.pages.dev/)
+            echo "attempt $i -> $CODE"
+            if [ "$CODE" = "200" ]; then exit 0; fi
+            sleep 10
+          done
+          echo "::error::gdmx.pages.dev is DOWN (last code $CODE)"
+          exit 1
+      - name: Check critical assets
+        if: success()
+        run: |
+          curl -sf --max-time 20 https://gdmx.pages.dev/sdk/v1/gdmx.js > /dev/null
+          curl -sf --max-time 20 https://gdmx.pages.dev/embed/checkout.html > /dev/null
+          curl -sf --max-time 20 https://gdmx.pages.dev/Dashboard.html > /dev/null
+          echo "all assets OK"

@@ -89,7 +89,9 @@ class GDMxGateway {
       const prov = provider ? `&provider=${encodeURIComponent(provider)}` : "";
       const chain = chainId ? `&chainId=${encodeURIComponent(chainId)}` : "";
       const social = isSocial ? `&social=1` : "";
-      const url = `https://gdmx.pages.dev/embed/checkout?to=${encodeURIComponent(this.merchantAddress)}&amount=${encodeURIComponent(amountUSD)}${prov}${chain}${social}`;
+      // 24/7: same-origin first (works on preview + custom domains), fallback to production
+      const base = (typeof location !== "undefined" && location.origin && location.origin.startsWith("http")) ? location.origin : "https://gdmx.pages.dev";
+      const url = `${base}/embed/checkout?to=${encodeURIComponent(this.merchantAddress)}&amount=${encodeURIComponent(amountUSD)}${prov}${chain}${social}`;
       const overlay = document.createElement("div");
       overlay.style.cssText = "position:fixed;inset:0;background:rgba(2,6,23,.85);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;z-index:9999";
       const badge = this.branding.badge ? `<div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-gradient-to-r from-violet-600 to-cyan-500 text-white text-xs font-bold">${this.branding.badge}</div>` : "";
@@ -98,7 +100,9 @@ class GDMxGateway {
       overlay.querySelector("#gdmx-close").onclick = () => { overlay.remove(); if (onCancel) onCancel(); reject(new Error("cancelled")); };
       overlay.addEventListener("click", (e) => { if (e.target === overlay) { overlay.remove(); if (onCancel) onCancel(); reject(new Error("cancelled")); }});
       window.addEventListener("message", async function handler(e) {
-        if (e.origin !== "https://gdmx.pages.dev") return;
+        // 24/7: accept same-origin + production (preview deployments use *.pages.dev)
+        const okOrigin = (typeof location !== "undefined" && e.origin === location.origin) || e.origin === "https://gdmx.pages.dev";
+        if (!okOrigin) return;
         if (e.data?.type === "GDMX_SUCCESS") { overlay.remove(); window.removeEventListener("message", handler); if (onSuccess) onSuccess(e.data.txHash); resolve(e.data.txHash); }
         if (e.data?.type === "GDMX_CANCELLED") { overlay.remove(); window.removeEventListener("message", handler); if (onCancel) onCancel(); reject(new Error("cancelled")); }
         if (e.data?.type === "GDMX_CRYPTO") {

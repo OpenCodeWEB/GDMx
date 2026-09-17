@@ -1,6 +1,11 @@
 export async function onRequest(context) {
-  const slug = (context.params.slug || "").toLowerCase();
-  if (slug.includes('.') || slug === 'gdmx-pay' || slug === 'sdk' || slug === 'embed' || slug === 'Dashboard') return context.next();
+  const raw = context.params.slug || "";
+  const slug = String(raw).toLowerCase();
+  // Static / SDK / embed / dashboard paths -> let Pages serve files (case-insensitive dashboard)
+  const lower = String(raw).toLowerCase();
+  if (slug.includes('.') || slug === 'gdmx-pay' || slug === 'sdk' || slug === 'embed' || lower === 'dashboard' || lower === '404') {
+    try { return await context.next(); } catch { return new Response("Not found", { status: 404 }); }
+  }
   const r = await fetch('https://gdbx.xup.workers.dev/dsgx/route/'+slug);
   const j = await r.json().catch(()=>({}));
   const profile = j.ok ? j.route : null;
