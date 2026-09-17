@@ -3,6 +3,8 @@
  * WalletConnect + Social + Multi-Chain + Gasless + Branded
  * Usage: new GDMxGateway({ merchantAddress: "0x..." }).checkout({ amountUSD: 5 })
  */
+// Double-load guard: gdmx-pay.js + sdk/v1/gdmx.js together — first load wins, no redeclare
+if (typeof window === "undefined" || !window.GDMxGateway) {
 class GDMxGateway {
   constructor({ merchantAddress, branding }) {
     if (!merchantAddress) throw new Error("merchantAddress required");
@@ -132,3 +134,4 @@ class GDMxGateway {
 window.GDMxGateway = GDMxGateway;
 // UMD + ESM compatible (classic <script> must NOT use `export` — it throws SyntaxError)
 if (typeof module !== "undefined" && module.exports) { module.exports = GDMxGateway; }
+} // end double-load guard
