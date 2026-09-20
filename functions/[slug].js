@@ -3,7 +3,7 @@ export async function onRequest(context) {
   const slug = String(raw).toLowerCase();
   // Static / SDK / embed / dashboard paths -> let Pages serve files (case-insensitive dashboard)
   const lower = String(raw).toLowerCase();
-  if (slug.includes('.') || slug === 'gdmx-pay' || slug === 'sdk' || slug === 'embed' || lower === 'dashboard' || lower === '404') {
+  if (slug.includes('.') || slug === 'gdmx-pay' || slug === 'sdk' || slug === 'embed' || slug === 'js' || lower === 'dashboard' || lower === '404' || lower === 'mine' || lower === 'mining') {
     try { return await context.next(); } catch { return new Response("Not found", { status: 404 }); }
   }
   const r = await fetch('https://gdbx.xup.workers.dev/dsgx/route/'+slug);

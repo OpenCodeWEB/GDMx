@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mining.GDBx — Support developers with your browser</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f59e0b'/%3E%3Ctext x='32' y='44' font-size='36' font-weight='bold' text-anchor='middle' fill='%230f172a'%3E%E2%9B%8F%3C/text%3E%3C/svg%3E">
+<meta name="description" content="Mining.GDBx — browser proof-of-support mining. Mine = ad-free. Donate = time pass. 99.9901% to developers.">
+<script src="https://cdn.tailwindcss.com"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>body{font-family:ui-sans-serif,system-ui,sans-serif}.mono{font-family:ui-monospace,monospace}</style>
+</head><body class="bg-slate-950 text-slate-100 min-h-screen">
+<header class="border-b border-slate-800 bg-slate-950/80 sticky top-0"><div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between"><a href="/" class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center font-bold text-slate-950"><i class="fa-solid fa-money-bill-transfer"></i></div><span class="font-extrabold text-xl bg-gradient-to-r from-amber-400 to-orange-300 bg-clip-text text-transparent">GDMx</span><span class="text-xs ml-1 px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 mono">Mining.GDBx</span></a><nav class="flex items-center gap-4 text-sm text-slate-300"><a href="/" class="hover:text-amber-300">Home</a><a href="/Dashboard" class="hover:text-cyan-300">Dashboard</a><a href="https://dsgx.pages.dev" class="hover:text-emerald-300">DSGx</a><a href="https://gdbx.pages.dev" class="hover:text-violet-300">GDBx</a></nav></div></header>
+<main class="max-w-3xl mx-auto px-4 py-10 space-y-6">
+<section class="text-center"><h1 class="text-3xl md:text-4xl font-extrabold">⛏ Support developers by <span class="bg-gradient-to-r from-amber-400 to-orange-300 bg-clip-text text-transparent">mining</span></h1>
+<p class="mt-3 text-slate-400">One tab, one worker, low CPU. <strong class="text-slate-200">Mining = ad-free.</strong> Or donate for a time pass.</p>
+<p class="mt-2 text-xs text-slate-500">Proof-of-support credits (demo) — this is <u>not</u> real coin-profit mining. 100% opt-in, pauses when tab hidden.</p></section>
+<section class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 space-y-4">
+<label class="block text-sm text-slate-300">Developer address (EVM / Solana / TON)<input id="to" class="mt-1 w-full mono text-xs bg-slate-950 border border-slate-700 rounded-lg px-3 py-2" value="0x9016a472c308A4e87bed705D066636Adf625D1B0"></label>
+<label class="block text-sm text-slate-300">CPU throttle: <span id="thrVal" class="mono text-amber-300">25%</span><input id="thr" type="range" min="5" max="50" value="25" class="w-full"></label>
+<div class="flex gap-3"><button id="startBtn" class="flex-1 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 text-slate-950 font-bold">⛏ Start mining</button><button id="stopBtn" class="px-6 py-3 rounded-xl border border-slate-700 text-slate-300">Stop</button></div>
+<div class="grid grid-cols-3 gap-2 text-center text-sm"><div class="p-3 rounded-xl bg-slate-950 border border-slate-800"><div id="hashrate" class="mono text-lg text-emerald-300">0</div><div class="text-xs text-slate-500">hashes/sec</div></div><div class="p-3 rounded-xl bg-slate-950 border border-slate-800"><div id="shares" class="mono text-lg text-amber-300">0</div><div class="text-xs text-slate-500">shares</div></div><div class="p-3 rounded-xl bg-slate-950 border border-slate-800"><div id="adfree" class="mono text-lg text-cyan-300">ads on</div><div class="text-xs text-slate-500">status</div></div></div>
+<p id="note" class="text-xs text-slate-500"></p>
+</section>
+<section class="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-6"><h3 class="font-bold">🎟 No mining? Donate for ad-free time</h3><p class="text-xs text-slate-400 mt-1">$1 ≈ 60 min ad-free pass (demo). Split: dev 99.9901% · ABsUP 0.009% · node 0.0009%.</p><div class="flex gap-2 mt-3"><button data-donate="1" class="donate px-4 py-2 rounded-xl bg-emerald-600 font-bold text-sm">$1 → 60 min</button><button data-donate="5" class="donate px-4 py-2 rounded-xl bg-emerald-600 font-bold text-sm">$5 → 5 hrs</button></div></section>
+<section class="rounded-2xl border border-cyan-500/20 bg-cyan-500/5 p-6"><h3 class="font-bold">🧩 Developers: add to your app/site</h3><pre class="mt-2 mono text-xs bg-slate-950 border border-slate-800 rounded-xl p-3 overflow-x-auto">&lt;script src="https://gdmx.pages.dev/sdk/mine.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  GDMxMine.start({ to: "0xYourAddress", throttle: 0.25 });
+  if (GDMxMine.adFree()) hideAds(); // mining or pass = ad-free
+&lt;/script&gt;</pre><p class="text-xs text-slate-500 mt-2">Full spec: <a class="text-cyan-300 hover:underline" href="https://github.com/OpenCodeWEB/GDMx/blob/Dev/NETWORK.md">NETWORK.md</a> · GDBx network: <a class="text-violet-300 hover:underline" href="https://gdbx.pages.dev">gdbx.pages.dev</a></p></section>
+</main>
+<footer class="border-t border-slate-800 py-8 text-center text-xs text-slate-500">Mining.GDBx · MIT · <span class="mono">gdmx.pages.dev/mine</span></footer>
+<script src="/sdk/v1/gdmx.js"></script>
+<script src="/sdk/split.js"></script>
+<script src="/sdk/mine.js"></script>
+<script>
+const $ = (id) => document.getElementById(id);
+$("thr").oninput = () => { $("thrVal").textContent = $("thr").value + "%"; GDMxMine.setThrottle($("thr").value / 100); };
+let tick0 = Date.now(), lastTick = Date.now();
+GDMxMine.on("tick", (d) => {
+  const now = Date.now(), el = Math.max((now - lastTick) / 1000, 0.05); lastTick = now;
+  if ((now - tick0) / 1000 >= 2) { $("hashrate").textContent = Math.round(d.hashes / el); tick0 = now; }
+  $("shares").textContent = d.shares;
+  $("adfree").textContent = GDMxMine.adFree() ? "ad-free ✓" : "ads on";
+});
+GDMxMine.on("share", (d) => { $("shares").textContent = d.shares; $("note").textContent = "✓ share " + String(d.hash).slice(0, 16) + "… credited to " + d.to.slice(0, 12) + "…"; });
+GDMxMine.on("stop", () => { $("adfree").textContent = GDMxMine.adFree() ? "ad-free ✓" : "ads on"; });
+$("startBtn").onclick = () => {
+  try {
+    GDMxMine.start({ to: $("to").value.trim(), throttle: $("thr").value / 100 });
+    $("note").textContent = "⛏ mining… single worker, pauses if tab hidden.";
+    $("startBtn").textContent = "⛏ Mining…";
+  } catch (e) { $("note").textContent = "⚠ " + e.message; }
+};
+$("stopBtn").onclick = () => { GDMxMine.stop(); $("startBtn").textContent = "⛏ Start mining"; $("note").textContent = "Stopped."; };
+document.querySelectorAll(".donate").forEach((b) => b.onclick = async () => {
+  const usd = Number(b.dataset.donate);
+  try {
+    const s = GDMxSplit.split(usd);
+    const gw = new GDMxGateway({ merchantAddress: $("to").value.trim() || "0x9016a472c308A4e87bed705D066636Adf625D1B0" });
+    await gw.checkout({ amountUSD: usd });
+    GDMxMine.grantPassMinutes(usd >= 5 ? 300 : 60);
+    $("adfree").textContent = "ad-free ✓";
+    $("note").textContent = "✓ $" + usd + " donated (dev $" + s.dev.toFixed(4) + " · owner $" + s.owner.toFixed(4) + " · node $" + s.node.toFixed(4) + ") — pass granted.";
+  } catch (e) { $("note").textContent = "Donate: " + e.message; }
+});
+if (GDMxMine.hasPass()) $("adfree").textContent = "ad-free ✓";
+</script>
+</body></html>
